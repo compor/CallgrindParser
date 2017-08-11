@@ -16,9 +16,16 @@ def id2fname(profile):
     i2f = {}
 
     for line in profile:
-        m = re.search('^fn=\((\d+)\) (.*)', line)
+        m = re.search('^fn=\((\d+)\)\s*(.*)?', line)
         if m:
-            i2f[m.group(1)] = m.group(2)
+            i2f[int(m.group(1))] = m.group(2)
+
+    for line in profile:
+        m = re.search('^cfn=\((\d+)\)\s*(.*)?', line)
+        if m:
+            key = int(m.group(1))
+            if i2f.has_key(key) and not i2f[key]:
+                i2f[key] = m.group(2)
 
     return i2f
 
