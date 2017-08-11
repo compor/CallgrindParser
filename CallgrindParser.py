@@ -50,7 +50,7 @@ def id2record(profile):
         rid = 0
 
         for line in r:
-            m = re.search('^fn=\((\d+)\) (.*)', line)
+            m = re.search('^fn=\((\d+)\)\s*(.*)?', line)
             if m:
                 rid = m.group(1)
                 shouldDiscard = False
@@ -59,7 +59,7 @@ def id2record(profile):
         if shouldDiscard:
             records.remove(r)
         else:
-            i2r[rid] = r
+            i2r[int(rid)] = r
 
     return i2r
 
