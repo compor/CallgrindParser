@@ -91,6 +91,22 @@ def calc_self_cost(i2r):
     return i2sc
 
 
+def calc_other_cost(i2r):
+    i2sc = {}
+
+    for rid, record in i2r.items():
+        for i in range(len(record)):
+            m1 = re.search('^calls=', record[i])
+            if m1:
+                m2 = re.search(' (\d+)$', record[i+1])
+                if m2:
+                    if i2sc.has_key(rid):
+                        i2sc[rid] += int(m2.group(1))
+                    else:
+                        i2sc[rid] = int(m2.group(1))
+
+    return i2sc
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -116,12 +132,18 @@ def main():
     i2r = id2record(profile)
 
     # for r in i2r:
-        # print(r, i2r[r][0])
+        # print(r, i2r[r])
 
-    i2sc = calc_self_cost(i2r)
+    # i2sc = calc_self_cost(i2r)
 
-    for i in i2sc:
-        print(i, i2sc[i])
+    # for i in i2sc:
+        # print(i, i2sc[i])
+
+    i2oc = calc_other_cost(i2r)
+
+    for i in i2oc:
+        print(i, i2oc[i])
+
 
 
 if __name__ == "__main__":
