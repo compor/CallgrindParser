@@ -57,6 +57,34 @@ def id2record(profile):
     return i2r
 
 
+def calc_self_cost(i2r):
+    i2sc = {}
+
+    for rid, record in i2r.items():
+        is_in_record_selfcost = False
+        for line in record:
+            if not is_in_record_selfcost:
+                m = re.search('^fn=\((\d+)\) (.*)', line)
+                if m:
+                    is_in_record_selfcost = True
+                    continue
+                else:
+                    pass
+            else:
+                m = re.search(' (\d+)$', line)
+                if m:
+                    if i2sc.has_key(rid):
+                        i2sc[rid] += int(m.group(1))
+                    else:
+                        i2sc[rid] = int(m.group(1))
+                else:
+                    is_in_record_selfcost = False
+                    break
+
+    return i2sc
+
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
 
@@ -80,9 +108,13 @@ def main():
 
     i2r = id2record(profile)
 
-    for r in i2r:
-        print(r, i2r[r][0])
+    # for r in i2r:
+        # print(r, i2r[r][0])
 
+    i2sc = calc_self_cost(i2r)
+
+    for i in i2sc:
+        print(i, i2sc[i])
 
 
 if __name__ == "__main__":
