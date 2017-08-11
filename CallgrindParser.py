@@ -134,6 +134,13 @@ def main():
     # for i in i2oc:
         # print(i, i2oc[i])
 
+    for i in i2f:
+        sc = i2sc[i]
+        if not i2oc.has_key(i):
+            i2oc[i] = 0
+        oc = i2oc[i]
+        print(i, sc, oc, sc + oc, i2f[i])
+
 
 
 if __name__ == "__main__":
