@@ -65,34 +65,24 @@ def id2record(profile):
 
 
 def calc_self_cost(i2r):
-    i2sc = {}
+    i2c = {}
 
     for rid, record in i2r.items():
-        is_in_record_selfcost = False
-        for line in record:
-            if not is_in_record_selfcost:
-                m = re.search('^fn=\((\d+)\) (.*)', line)
-                if m:
-                    is_in_record_selfcost = True
-                    continue
-                else:
-                    pass
-            else:
-                m = re.search(' (\d+)$', line)
-                if m:
-                    if i2sc.has_key(rid):
-                        i2sc[rid] += int(m.group(1))
+        for i in range(len(record)):
+            m1 = re.search('^[-+*]?\d+.*\s(\d+)$', record[i])
+            if m1:
+                m2 = re.search('^calls=', record[i-1])
+                if not m2:
+                    if i2c.has_key(rid):
+                        i2c[rid] += int(m1.group(1))
                     else:
-                        i2sc[rid] = int(m.group(1))
-                else:
-                    is_in_record_selfcost = False
-                    break
+                        i2c[rid] = int(m1.group(1))
 
-    return i2sc
+    return i2c
 
 
 def calc_other_cost(i2r):
-    i2sc = {}
+    i2c = {}
 
     for rid, record in i2r.items():
         for i in range(len(record)):
@@ -100,12 +90,12 @@ def calc_other_cost(i2r):
             if m1:
                 m2 = re.search(' (\d+)$', record[i+1])
                 if m2:
-                    if i2sc.has_key(rid):
-                        i2sc[rid] += int(m2.group(1))
+                    if i2c.has_key(rid):
+                        i2c[rid] += int(m2.group(1))
                     else:
-                        i2sc[rid] = int(m2.group(1))
+                        i2c[rid] = int(m2.group(1))
 
-    return i2sc
+    return i2c
 
 
 def main():
@@ -134,15 +124,15 @@ def main():
     # for r in i2r:
         # print(r, i2r[r])
 
-    # i2sc = calc_self_cost(i2r)
+    i2sc = calc_self_cost(i2r)
 
     # for i in i2sc:
         # print(i, i2sc[i])
 
     i2oc = calc_other_cost(i2r)
 
-    for i in i2oc:
-        print(i, i2oc[i])
+    # for i in i2oc:
+        # print(i, i2oc[i])
 
 
 

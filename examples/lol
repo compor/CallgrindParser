@@ -1,0 +1,33 @@
+
+fn=(712)
+0 5
+cfn=(714)
+calls=1 0 
+0 2739
+0 2
+cfn=(734) MAIN_printInfo
+calls=1 0 
+0 5792
+0 2
+cfn=(794) MAIN_initialize
+calls=1 0 
+0 795093167
+0 166
+cfn=(924) LBM_handleInOutFlow
+calls=20 0 
+0 267800620
+0 60
+cfn=(930) LBM_performStreamCollide
+calls=20 0 
+0 13812127500
+0 60
+cfn=(932)
+calls=20 0 
+0 160
+0 182
+cfn=(934)
+calls=1 0 
+0 324649252
+0 4
+
+
