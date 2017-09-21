@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 
 from __future__ import print_function
+import sys
 import argparse
 import re
 
@@ -103,14 +104,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument(
-        "input", nargs="?", default="-",
-        metavar="INPUT_FILE", type=argparse.FileType("r"),
-        help="path to the input file (read from stdin if omitted)")
+        'input', nargs='?', default=sys.stdin,
+        metavar='input_file', type=argparse.FileType('r'),
+        help='path to the input file (use stdin if omitted)')
 
     parser.add_argument(
-        "output", nargs="?", default="-",
-        metavar="OUTPUT_FILE", type=argparse.FileType("w"),
-        help="path to the output file (write to stdout if omitted)")
+        'output', nargs='?', default=sys.stdout,
+        metavar='output_file', type=argparse.FileType('w'),
+        help='path to the output file (use stdout if omitted)')
 
     args = parser.parse_args()
     profile = args.input.readlines()
@@ -140,7 +141,9 @@ def main():
         if not i2oc.has_key(i):
             i2oc[i] = 0
         oc = i2oc[i]
-        print(i, sc, oc, sc + oc, i2f[i])
+        # print(i, sc, oc, sc + oc, i2f[i])
+        line = '{0} {1} {2} {3} {4}\n'.format(i, sc, oc, sc + oc, i2f[i])
+        args.output.write(line)
 
 
 if __name__ == "__main__":
