@@ -4,6 +4,7 @@ from __future__ import print_function
 import argparse
 import re
 
+
 def is_empty(line):
     m = re.search('^\s*$', line)
     if m:
@@ -71,7 +72,7 @@ def calc_self_cost(i2r):
         for i in range(len(record)):
             m1 = re.search('^[-+*]?\d+.*\s(\d+)$', record[i])
             if m1:
-                m2 = re.search('^calls=', record[i-1])
+                m2 = re.search('^calls=', record[i - 1])
                 if not m2:
                     if i2c.has_key(rid):
                         i2c[rid] += int(m1.group(1))
@@ -88,7 +89,7 @@ def calc_other_cost(i2r):
         for i in range(len(record)):
             m1 = re.search('^calls=', record[i])
             if m1:
-                m2 = re.search(' (\d+)$', record[i+1])
+                m2 = re.search(' (\d+)$', record[i + 1])
                 if m2:
                     if i2c.has_key(rid):
                         i2c[rid] += int(m2.group(1))
@@ -117,22 +118,22 @@ def main():
     i2f = id2fname(profile)
 
     # for i in i2f:
-        # print(i, i2f[i])
+    # print(i, i2f[i])
 
     i2r = id2record(profile)
 
     # for r in i2r:
-        # print(r, i2r[r])
+    # print(r, i2r[r])
 
     i2sc = calc_self_cost(i2r)
 
     # for i in i2sc:
-        # print(i, i2sc[i])
+    # print(i, i2sc[i])
 
     i2oc = calc_other_cost(i2r)
 
     # for i in i2oc:
-        # print(i, i2oc[i])
+    # print(i, i2oc[i])
 
     for i in i2f:
         sc = i2sc[i]
@@ -140,7 +141,6 @@ def main():
             i2oc[i] = 0
         oc = i2oc[i]
         print(i, sc, oc, sc + oc, i2f[i])
-
 
 
 if __name__ == "__main__":
