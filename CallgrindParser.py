@@ -26,7 +26,7 @@ def id2fname(profile):
         m = re.search('^cfn=\((\d+)\)\s*(.*)?', line)
         if m:
             key = int(m.group(1))
-            if i2f.has_key(key) and not i2f[key]:
+            if key in i2f and not i2f[key]:
                 i2f[key] = m.group(2)
 
     return i2f
@@ -75,7 +75,7 @@ def calc_self_cost(i2r):
             if m1:
                 m2 = re.search('^calls=', record[i - 1])
                 if not m2:
-                    if i2c.has_key(rid):
+                    if rid in i2c:
                         i2c[rid] += int(m1.group(1))
                     else:
                         i2c[rid] = int(m1.group(1))
@@ -92,7 +92,7 @@ def calc_other_cost(i2r):
             if m1:
                 m2 = re.search(' (\d+)$', record[i + 1])
                 if m2:
-                    if i2c.has_key(rid):
+                    if rid in i2c:
                         i2c[rid] += int(m2.group(1))
                     else:
                         i2c[rid] = int(m2.group(1))
@@ -138,7 +138,7 @@ def main():
 
     for i in i2f:
         sc = i2sc[i]
-        if not i2oc.has_key(i):
+        if i not in  i2oc:
             i2oc[i] = 0
         oc = i2oc[i]
         # print(i, sc, oc, sc + oc, i2f[i])
