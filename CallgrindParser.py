@@ -136,15 +136,26 @@ def main():
     # for i in i2oc:
     # print(i, i2oc[i])
 
+    lst = []
     for i in i2f:
         sc = i2sc[i]
         if i not in  i2oc:
             i2oc[i] = 0
         oc = i2oc[i]
         # print(i, sc, oc, sc + oc, i2f[i])
-        line = '{0} {1} {2} {3} {4}\n'.format(i, sc, oc, sc + oc, i2f[i])
-        args.output.write(line)
+        line = '{0}, {1}, {2}, {3}, {4}\n'.format(i, sc, oc, sc + oc, i2f[i])
+        lst.append([sc,oc, i2f[i]])
+        #args.output.write(line)
 
+    lst.sort(key=lambda x: x[0], reverse=True)
+    total_self = sum( [ x[0] for x in lst ] ) * 1.0
+    total_other = sum( [ x[1] for x in lst ] ) * 1.0
+    
+    for x in lst[0:20]:
+        s = x[2]
+        s = re.sub('[(].*','',s);        
+        args.output.write('{0:5.2f}   (+{1:5.2f}) {2:20} {3}\n'.format(x[0]/total_self*100, x[1]/total_other*100, x[0] , s ))
+                   
 
 if __name__ == "__main__":
     main()
